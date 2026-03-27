@@ -1,0 +1,23 @@
+# PDF File Placeholder
+
+Replace this file with your actual PDF document that you want to chat with.
+
+## Instructions:
+1. Remove this README.txt file
+2. Place your PDF file here and rename it to `your-document.pdf`
+3. Run the ingestion script: `python local_ingest/ingest.py`
+4. Upload the generated embeddings to your Supabase database
+
+## Requirements:
+- PDF file size: Recommended under 10MB for optimal performance
+- Format: Standard PDF with text content (not scanned images)
+- Name: Must be exactly `your-document.pdf` for the script to find it
+
+## Next Steps:
+After placing your PDF file here, run:
+```bash
+cd local_ingest
+python ingest.py
+```
+
+This will generate `embeddings_to_upload.json` which you can then upload via the API endpoint.
