@@ -1,4 +1,4 @@
-# Use Python 3.11 slim image for smaller size
+# Use Python 3.11 slim image for better compatibility
 FROM python:3.11-slim
 
 # Set environment variables
@@ -15,18 +15,16 @@ RUN apt-get update && apt-get install -y \
     g++ \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
-COPY final-requirements.txt ./requirements.txt
-
-# Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+# Copy and install Python dependencies
+COPY requirements.txt .
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
 # Copy application code
 COPY app/ ./app/
 COPY local_ingest/ ./local_ingest/
 
-# Create non-root user for security
+# Create non-root user
 RUN useradd --create-home --shell /bin/bash app && \
     chown -R app:app /app
 USER app
