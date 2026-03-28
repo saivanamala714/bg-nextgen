@@ -1,0 +1,16 @@
+# Simulate the latest Render configuration
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy the exact requirements-render.txt
+COPY requirements-render.txt .
+
+# Install with the same command as Render
+RUN pip install --upgrade pip && pip install -r requirements-render.txt
+
+# Copy app code to test imports
+COPY app/ ./app/
+
+# Test if it starts
+CMD ["python", "-c", "import app.main; print('✅ App imports successfully')"]

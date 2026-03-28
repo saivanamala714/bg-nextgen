@@ -1,11 +1,13 @@
 services:
   type: web
-  name: pdf-chat-rag-backend-docker
-  env: docker
+  name: pdf-chat-rag-backend
+  env: python
   plan: free
-  dockerfilePath: ./Dockerfile
+  buildCommand: pip install --upgrade pip && pip install -r requirements-render.txt
+  startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
   healthCheckPath: /health
   autoDeploy: true
+  pythonVersion: 3.11.9
   
   envVars:
     - key: SUPABASE_URL
