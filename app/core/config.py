@@ -30,8 +30,8 @@ class Settings(BaseSettings):
     temperature: float = 0.1
     max_tokens: int = 2000
     
-    # Vector Settings (optional)
-    embedding_dimension: int = 1024
+    # Vector Settings (updated for memory-optimized model)
+    embedding_dimension: int = 384  # all-MiniLM-L6-v2 produces 384 dimensions
     similarity_threshold: float = 0.1  # Lowered from 0.7 to find more matches
     
     # PDF Processing

@@ -13,7 +13,7 @@ class EmbeddingService:
     """Service for generating embeddings using local and OpenAI models."""
     
     def __init__(self):
-        # Initialize local BGE-M3 model for PDF processing
+        # Initialize lightweight model for PDF processing (memory optimized)
         self.local_model = None
         self._load_local_model()
         
@@ -21,18 +21,19 @@ class EmbeddingService:
         self.openai_client = openai.OpenAI(api_key=settings.openai_api_key)
     
     def _load_local_model(self) -> None:
-        """Load the BGE-M3 model for local embeddings."""
+        """Load a lightweight model for local embeddings to fit in 512MB memory."""
         try:
-            logger.info("Loading BGE-M3 model for local embeddings...")
-            self.local_model = SentenceTransformer('BAAI/bge-m3')
-            logger.info("BGE-M3 model loaded successfully")
+            logger.info("Loading lightweight embedding model for memory optimization...")
+            # Use a much smaller model that fits in 512MB
+            self.local_model = SentenceTransformer('all-MiniLM-L6-v2')
+            logger.info("Lightweight model loaded successfully")
         except Exception as e:
-            logger.error(f"Failed to load BGE-M3 model: {e}")
+            logger.error(f"Failed to load lightweight model: {e}")
             raise
     
     def generate_local_embedding(self, text: str) -> List[float]:
         """
-        Generate embedding using local BGE-M3 model.
+        Generate embedding using lightweight all-MiniLM-L6-v2 model.
         Used for PDF chunk embeddings during ingestion.
         """
         try:
@@ -63,7 +64,7 @@ class EmbeddingService:
     
     async def generate_query_embedding(self, query: str) -> List[float]:
         """
-        Generate embedding using local BGE-M3 model.
+        Generate embedding using lightweight all-MiniLM-L6-v2 model.
         Used for query embeddings during chat to match stored PDF embeddings.
         """
         try:
@@ -86,7 +87,7 @@ class EmbeddingService:
                 else:
                     embedding_list = embedding_list[:settings.embedding_dimension]
             
-            logger.info(f"Generated BGE-M3 query embedding with {len(embedding_list)} dimensions")
+            logger.info(f"Generated lightweight query embedding with {len(embedding_list)} dimensions")
             return embedding_list
             
         except Exception as e:
