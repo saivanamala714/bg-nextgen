@@ -12,3 +12,4 @@ groq==0.4.1
 httpx==0.24.1
 python-multipart==0.0.6
 setuptools==69.5.1
+huggingface_hub==0.15.1
